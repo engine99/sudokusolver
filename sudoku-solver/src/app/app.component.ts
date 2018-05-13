@@ -7,7 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Sudoku Solver';
-  data = [0,0,0,0,0,0,0,0,0]; // row-major ordering of 9
-  
-  tapCell(index : number) { this.data[index]++; }
+  data: number[][] = 
+  [[0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0]];
+
+  tapCell(index1: number, index2: number) { this.data[index1][index2] = this.data[index1][index2]+ 1; }
 }

@@ -72,15 +72,19 @@ h1 {
 
 .gameboard table{
 	border-spacing: 0px;
-	border: solid black;
+}
+
+.gametable {
+	border: 2px solid black;
 }
 
 .gameboard td {
   border: 0.5px solid black;
   font-size: 24pt;
-  width: 2em;
-  height: 2em;
+  width: 8ex;
+  height: 2.3ex;
   text-align: center;
+  padding: 0px;
   
 }
 

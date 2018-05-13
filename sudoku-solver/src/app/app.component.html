@@ -1,8 +1,14 @@
 <div class="gameboard">
-<table>
-	<tr *ngFor="let y of [0,1,2]">
-		<td *ngFor="let x of [0,1,2]" (click)="tapCell(y*3+x)">{{data[y*3+x]}}</td>
-	</tr>
+<table class="gametable">
+	<tr *ngFor="let y1 of [0,1,2]">
+		<td *ngFor="let x1 of [0,1,2]" >
+			<table>
+				<tr *ngFor="let y2 of [0,1,2]">
+					<td *ngFor="let x2 of [0,1,2]" (click)="tapCell(y1*3+x1, y2*3+x2)">{{data[y1*3+x1][y2*3+x2]}}</td>
+				</tr>
+			</table>
+		</td>
+	</tr>	
 </table>
 </div>
 <div class="navigation">
