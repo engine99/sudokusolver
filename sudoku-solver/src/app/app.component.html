@@ -4,7 +4,7 @@
 		<td *ngFor="let x1 of [0,1,2]" >
 			<table>
 				<tr *ngFor="let y2 of [0,1,2]">
-					<td *ngFor="let x2 of [0,1,2]" (click)="tapCell(y1*3+x1, y2*3+x2)">{{data[y1*3+x1][y2*3+x2]}}</td>
+					<td *ngFor="let x2 of [0,1,2]" (click)="tapCell((y1*3+y2)*9+(x1*3)+x2)">{{data[(y1*3+y2)*9+(x1*3)+x2]}}</td>
 				</tr>
 			</table>
 		</td>
@@ -12,5 +12,5 @@
 </table>
 </div>
 <div class="navigation">
-	<input id="goButton" type="button"/><label for="goButton">GO!</label>
+	<button id="goButton" (click)=attack()>Attack</button>
 </div>
