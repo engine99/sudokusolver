@@ -1,8 +1,8 @@
-Sudoku Solver - an Angular application
+# Sudoku Solver - an Angular application
 
 An Angular, cross-platform Sudoku game with depth-first search solver 
 
-<h6>Set up environment</h6>
+### Set up environment
 
 > npm install -g angular
 
@@ -27,7 +27,7 @@ To build:
 > cordova build
 
 
-To deploy:
+### To deploy:
 
 > cordova run
 
