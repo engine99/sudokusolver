@@ -72,20 +72,29 @@ h1 {
 
 .gameboard table{
 	border-spacing: 0px;
+	table-layout: fixed;
 }
 
 .gametable {
 	border: 2px solid black;
+	table-layout: fixed;
+	width: 27ex;
+	font-size: 24pt;
 }
-
+  
 .gameboard td {
   border: 0.5px solid black;
-  font-size: 24pt;
-  width: 8ex;
-  height: 2.3ex;
   text-align: center;
   padding: 0px;
-  
+}
+
+.blocktable {
+	table-layout: fixed;
+}
+
+.blocktable td {
+  width: 3ex;
+  height: 2.8ex;
 }
 
 .navigation {
@@ -106,6 +115,7 @@ button {
 	width: 200px;
 	height: 50px;
   	box-shadow: 5px 10px 10px DarkGrey;
+  	margin-top: 10px;
 }
 
 button:hover {

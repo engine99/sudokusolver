@@ -9,7 +9,7 @@ export class AppComponent {
   title = 'Sudoku Solver';
 
   // game board data. zero indicates 'none selected'
-  data: number[] =
+  sampleData: number[] =
   [8, 5, 6, 0, 1, 4, 7, 3, 0,
   0, 9, 0, 0, 0, 0, 0, 0, 0,
   2, 4, 0, 0, 0, 0, 1, 6, 0,
@@ -20,12 +20,36 @@ export class AppComponent {
   0, 0, 0, 0, 0, 0, 0, 1, 0,
   0, 1, 8, 6, 3, 0, 2, 9, 4];
 
+  data: number[];
+
+  constructor() {
+    this.clear();
+  }
+
+  // clear the game board
+  clear() {
+    this.data = Array(81).fill(0);
+  }
+
+  // preset the gameboard to some sample data
+  setSample() {
+    this.data = this.sampleData.slice();
+  }
+
+  indexOf(x1: number, y1: number, x2: number, y2: number): number {
+    return (y1 * 3 + y2) * 9 + (x1 * 3) + x2;
+  }
+
   // handle cell tapping. Increment that cell
   tapCell(index: number) { this.data[index] = (this.data[index] + 1) % 10; }
 
+
+
+
+
   // solve the sudoku, if possible, and update the gameboard if a solution is found
   attack() {
-    
+
     // start the search tree
     const myIdea: number[] = this.attack2(new Array());
 
@@ -75,6 +99,7 @@ export class AppComponent {
      if (!taken.includes(i)) {
        // This is the end condition - have just solved the last zero
        if (ideaIndex === ideas.length + 1) {
+         myData[headIndex] = i;
          return myData;
        }
        // Recurse using the new partial result
@@ -88,7 +113,7 @@ export class AppComponent {
    return null;
   }
 
-  // get the non-zero (taken) numbers that are in the same block as myIndex 
+  // get the non-zero (taken) numbers that are in the same block as myIndex
   getTakenByBlock(idea: number[], myIndex: number): number[] {
     // which block?
     const myBlockX = Math.floor((myIndex % 9) / 3);
