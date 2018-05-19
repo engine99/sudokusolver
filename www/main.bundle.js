@@ -38,7 +38,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"gameboard\">\n<table class=\"gametable\">\n\t<tr *ngFor=\"let y1 of [0,1,2]\">\n\t\t<td *ngFor=\"let x1 of [0,1,2]\" >\n\t\t\t<table>\n\t\t\t\t<tr *ngFor=\"let y2 of [0,1,2]\">\n\t\t\t\t\t<td *ngFor=\"let x2 of [0,1,2]\" (click)=\"tapCell((y1*3+y2)*9+(x1*3)+x2)\">{{data[(y1*3+y2)*9+(x1*3)+x2]}}</td>\n\t\t\t\t</tr>\n\t\t\t</table>\n\t\t</td>\n\t</tr>\t\n</table>\n</div>\n<div class=\"navigation\">\n\t<button id=\"goButton\" (click)=attack()>Attack</button>\n</div>\n"
+module.exports = "<div class=\"gameboard\">\n<table class=\"gametable\">\n\t<tr *ngFor=\"let y1 of [0,1,2]\">\n\t\t<td *ngFor=\"let x1 of [0,1,2]\" >\n\t\t\t<table class=\"blocktable\">\n\t\t\t\t<tr *ngFor=\"let y2 of [0,1,2]\">\n\t\t\t\t\t<td *ngFor=\"let x2 of [0,1,2]\" (click)=\"tapCell(indexOf(x1, y1, x2, y2))\">\n\t\t\t\t\t\t<span [style.display]=\"data[indexOf(x1, y1, x2, y2)] < 1 ? 'none' : 'inline'\">\n\t\t\t\t\t\t\t{{data[indexOf(x1, y1, x2, y2)]}}\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</td>\n\t\t\t\t</tr>\n\t\t\t</table>\n\t\t</td>\n\t</tr>\t\n</table>\n</div>\n<div class=\"navigation\">\n\t<button id=\"goButton\" (click)=attack()>Attack</button>\t\n\t<button id=\"clearButton\" (click)=clear()>Clear</button>\n\t<button id=\"resetButton\" (click)=setSample()>setSample</button>\n</div>\n"
 
 /***/ }),
 
@@ -54,12 +54,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
         this.title = 'Sudoku Solver';
         // game board data. zero indicates 'none selected'
-        this.data = [8, 5, 6, 0, 1, 4, 7, 3, 0,
+        this.sampleData = [8, 5, 6, 0, 1, 4, 7, 3, 0,
             0, 9, 0, 0, 0, 0, 0, 0, 0,
             2, 4, 0, 0, 0, 0, 1, 6, 0,
             0, 6, 2, 0, 5, 9, 3, 0, 0,
@@ -68,7 +71,19 @@ var AppComponent = /** @class */ (function () {
             0, 2, 4, 0, 0, 0, 0, 7, 3,
             0, 0, 0, 0, 0, 0, 0, 1, 0,
             0, 1, 8, 6, 3, 0, 2, 9, 4];
+        this.clear();
     }
+    // clear the game board
+    AppComponent.prototype.clear = function () {
+        this.data = Array(81).fill(0);
+    };
+    // preset the gameboard to some sample data
+    AppComponent.prototype.setSample = function () {
+        this.data = this.sampleData.slice();
+    };
+    AppComponent.prototype.indexOf = function (x1, y1, x2, y2) {
+        return (y1 * 3 + y2) * 9 + (x1 * 3) + x2;
+    };
     // handle cell tapping. Increment that cell
     AppComponent.prototype.tapCell = function (index) { this.data[index] = (this.data[index] + 1) % 10; };
     // solve the sudoku, if possible, and update the gameboard if a solution is found
@@ -90,7 +105,7 @@ var AppComponent = /** @class */ (function () {
         var ideaIndex = 0;
         // Make a copy of the game board and fill in the zeroes with any ideas so far
         var myData = new Array(81);
-        var headIndex = 0;
+        var headIndex = -1;
         // Make a copy of data ... and fill in the ideas
         for (var index = 0; index < 81; index++) {
             if (this.data[index] > 0) {
@@ -102,7 +117,7 @@ var AppComponent = /** @class */ (function () {
             else {
                 ideaIndex++;
                 myData[index] = 0;
-                if (headIndex === 0) {
+                if (headIndex === -1) {
                     headIndex = index;
                 }
             }
@@ -116,6 +131,7 @@ var AppComponent = /** @class */ (function () {
             if (!taken.includes(i)) {
                 // This is the end condition - have just solved the last zero
                 if (ideaIndex === ideas.length + 1) {
+                    myData[headIndex] = i;
                     return myData;
                 }
                 // Recurse using the new partial result
@@ -128,7 +144,7 @@ var AppComponent = /** @class */ (function () {
         }
         return null;
     };
-    // get the non-zero (taken) numbers that are in the same block as myIndex 
+    // get the non-zero (taken) numbers that are in the same block as myIndex
     AppComponent.prototype.getTakenByBlock = function (idea, myIndex) {
         // which block?
         var myBlockX = Math.floor((myIndex % 9) / 3);
@@ -155,7 +171,8 @@ var AppComponent = /** @class */ (function () {
             selector: 'app-root',
             template: __webpack_require__("../../../../../src/app/app.component.html"),
             styles: [__webpack_require__("../../../../../src/app/app.component.css")]
-        })
+        }),
+        __metadata("design:paramtypes", [])
     ], AppComponent);
     return AppComponent;
 }());

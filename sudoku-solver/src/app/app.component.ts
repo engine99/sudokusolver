@@ -72,7 +72,7 @@ export class AppComponent {
     // Make a copy of the game board and fill in the zeroes with any ideas so far
     const myData = new Array(81);
 
-    let headIndex = 0;
+    let headIndex = -1;
 
     // Make a copy of data ... and fill in the ideas
     for (let index = 0; index < 81; index++) {
@@ -83,7 +83,7 @@ export class AppComponent {
       } else {
         ideaIndex++;
         myData[index] = 0;
-        if (headIndex === 0) {
+        if (headIndex === -1) {
           headIndex = index;
         }
       }
