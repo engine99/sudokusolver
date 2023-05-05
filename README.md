@@ -8,7 +8,7 @@ Built on:
 - Cordova for device compatibility
 - Jasmine for high-level regression testing
 - @angular/core/testing and Karma for unit testing
-- Serverless
+- Browser-based
 
 ### Set up environment
 
@@ -29,3 +29,9 @@ To build:
 ### To deploy:
 
 > cordova run
+
+### To do:
+- restructure folders
+- build scripts
+- landscape device display
+- 
